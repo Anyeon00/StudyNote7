@@ -1,0 +1,27 @@
+[07 Spring Security, Spring Session
+  - 3-Tier 아키텍처, HTTP세션, 세션 클러스터]
+
+대용량 처리와 관련 내용임
+
+
+3-Tier Architecture
+- 프레젠테이션 레이어 (HTML, CSS, JS)
+- 애플리케이션 레이어 (WAS, Java, C#, .NET, ..)
+- 데이터 레이어 (MySQL, Oracle, ..)
+
+서버 증설로 인해 애플리케이션 레이어가 늘어나면, Load Balancer가 dispatch 해줌
+=> Presentation Layer - Load Balancer - Application Layer, Application Layer, Application Layer -> Data Layer
+* 하지만 여러 Application Layer 중 특정 하나의 서버에서 장애가 발생하면?
+
+
+HTTP와 Session
+- HTTP는 stateless임, 클라이언트의 어떤 정보도 저장하지 않음
+- 서버가 인증된 사용자의 상태를 저장하고 사용하는 방법
+사용자가 로그인시 서버메모리에 Session을 만듦, 해당 Session id를 클라이언트에게 쿠키로 응답, 클라이언트가 해당 쿠키로 다시 요청하면 Session id를 서버의 Session에서 검증
+=> 문제 : 인증상태(세션)이 서버에 저장되므로, 서버 장애시 세션정보 모두 유실
+
+
+세션 클러스터 Session Cluster
+- 위 문제를 해결하기 위한 방법
+- 세션을 서버메모리에만 저장하는게 아니라, 별도의 스토리지에 복사해둠
+

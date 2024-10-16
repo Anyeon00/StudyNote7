@@ -1,0 +1,48 @@
+[01 Spring Security Quickstart 
+  -2. 웹 어플리케이션의 주요 보안 위협 요소]
+
+1. 인증(Authentication) 절차 미비
+- 사용자의 신원을 확인하는 과정
+  - 아이디/패스워드 기반 로그인
+  - OAuth2.0 프로토콜을 통한 Social 인증
+
+* 보통 어플리케이션은 인증영역과 익명영역으로 나뉨
+익명 영역 - 사용자의 신원과 무관한 기능
+인증 영역 - 사용자의 개인정보를 확인하고, 수정 가능
+
+2. 인가(Authorzation) 처리의 미비
+- 적절한 권한이 부여된 사용자들만 특정 기능 수행 또는 데이터 접근 허용
+- 사용자가 주어진 권한을 넘어서는 기능 수행은, 보안사고 발생 가능성 높음
+
+3. 크리덴셜(Credential) 보안
+- 민감정보(연락처, 비번 등)를 보호하는 것은 항상 최우선 순위
+- 민감정보를 암호화하지 않고, 일반 텍스트로 저장하는 것은 매우 위험
+(그런데 지켜지지 않는 서비스가 많음)
+
+4. 전송 레이어 보안
+- SSL 보호를 적용 (https 프로토콜을 말함)
+
+
+Spring Security
+- "Spring Security is a powerful and highly customizable authentication and access-control framework. It is the de-facto standart for securing Spring-based applications."
+- Spring Boot 웹 어플리케이션에 쉽게 적용 가능하며, 적은 노력으로 각 상황에 보안을 적용할 수 있음
+- 사용자 인증 및 인가 처리는 기본
+- 필요에 따라 커스터마이징 가능
+- 다양한 확장 기능과 자연스러운 통합
+  - Spring Session (세션 클러스터 기능 추상화 제공)
+  - Spring Security Oauth (Oauth 1a, Oauth2 인증 프로토콜 제공)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

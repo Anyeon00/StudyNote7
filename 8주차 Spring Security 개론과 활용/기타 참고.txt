@@ -1,0 +1,9 @@
+컨트롤러 메서드의 파라미터에서 인가된 유저정보 사용하기
+//앞에 필터가 ContextHolder에 기록한 내용 얻어옴
+@AuthenticationPrincipal String username
+
+ex)
+@GetMapping
+public String method1(@AuthenticatinoPrincipal String username){
+	Member m = repository.findByUsername(username);
+}

@@ -1,0 +1,12 @@
+[04 Spring Security Internals Part. 2
+  - 미션 소개]
+
+"admin" URL 접근에 대한 접근 권한 검사를 SpEL 표현식 방식에서 voter 방식으로 변경해보기
+- AccessDecisionVoter<FilterInvocation> 인터페이스를 구현하는 OddAdnimVoter 클래스 추가
+  - Admin 사용자의 로그인 아이디 끝 숫자가 홀수 인 경우 접근 허용
+  - URL이 "/admin"이 아닌 경우 접근을 승인함
+- expressionHandler(expressionHandler()) 부분 삭제 - 기본 expressionHandler를 사용함
+- 표현식에서 oddAdmin 부분 삭제
+* 삭제 후 표현식 : antMatchers("/admin").access("isFullyAuthenticated() and hasRole('ADMIN')")
+- AccessDecisionManager 인터페이스 구현체 중 UnanimousBased를 사용하도록 설정하고, 아래 voter 추가
+  - WebExpressionVoter, OddAminVoter

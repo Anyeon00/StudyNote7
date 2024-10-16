@@ -1,0 +1,12 @@
+[10 Spring Security OAuth2
+  - Implict Grant]
+Oauth2.0에서 Client가 Authorization Server에게 토큰 발생을 요청하는 4가지 방법
+중 2번 방법
+
+Implict Grant
+- Authorization Code Grant 방식과 비교 
+: Authorization Response 단계에서 Access-Token이 전달되고, Token Request 단계가 생략됨
+- Access-Token이 쿼리스트링으로 URL에 노출되어 보안리스크 발생
+- 백엔드 서버가 없는 경우에 사용함 (브라우저에서 스크립트로 동작하는 웹앱 등)
+
+

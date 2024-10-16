@@ -1,0 +1,22 @@
+[03 Spring Security Internals Part. 1
+  - Thread Per Request 모델과 ThreadLocal]
+
+Thread Per Request 모델
+- WAS는 ThreadPool을 생성함(Tomcat 기본값200)
+- HTTP요청이 들어오면 Queue에 적재, ThreadPool의 Thread들이 하나씩 처리
+- **하나의 요청은 하나의 Thread가 끝까지 처리**
+
+- Thread 갯수를 늘리면, Context 스위칭 오버헤드로 인해 성능저하 발생가능
+* Spring WebFlux같은 기술은 최소한의 Thread로 HTTP요청을 동시처리하는데 중점
+(이는 Thread Per Request 모델과 달리, HTTP요청을 하나 이상의 Thread가 처리하게 됨)
+
+- Spring MVC는 Thread Per Request 모델을 기반으로 함
+
+
+ThreadLocal 객체
+- static 변수로 선언하지만, 여러 Thread가 사용할 때 서로 공유하지 않는 변수임
+- 단, 여러 Thread가 사용시 Thread 종료 전, ThreadLocal변수를 clear해주어야 함
+이딴걸 왜 만들어서 어따 쓴다는거..? -> 뒤에 SecurityContextHolder와 이어짐
+
+
+

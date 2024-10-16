@@ -1,0 +1,54 @@
+[04 Spring Security Internals Part. 2
+  - SessionManagementFilter]
+
+session-fixation attack 
+- 세션 하이재킹 기법 중 하나
+- 세션을 탈취하여 인증을 우회함
+- 설명
+1. 해커가 서버에 요청해 세션을 받아옴
+2. 다른 사용자에게 자신의 세션을 주입하여 사용하게 만듦
+3. 위 사용자가 로그인을 하면 해커의 세션이 인증됨
+4. 해커가 해당 세션을 사용
+* 또는 사용자가 로그인 하기 전의 세션을 해커가 탈취하고, 로그인 후 이 세션이 인증되면 해커가 사용하게 됨
+
+해결방법
+: 인증 전에 가지고 있던 세션은, 인증 후엔 사용되지 않도록 하기
+(즉, 세션이 고정되어있지 않게)
+
+
+SessionManagementFilter
+- Spring Security의 세션고정보호(session-fixation protection) 기능의 필터
+- 4가지 옵션
+1. none - 아무 조치도 안함 (안씀)
+2. newSession - 새로운 세션을 만들고, 기존 데이터는 복제하지 않음
+3. migrateSession - 새로운 세션을 만들고, 데이터를 모두 복제함
+4. changeSession - 새로운 세션을 만들지 않지만, session-fixation 공격을 방어함 (default)
+
+- 설정 방법 (위 설명대로 default값이라 굳이 안해도 됨, 단 rest api서버인 경우 아래 주석참고)
+Security Configuration 클래스의 configure(HttpSecurity http) 메서드에서
+http
+  .sessionManagement()
+    .sessionFixation().changeSessionId()	//none(), newSession(), migrateSession()
+    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)	
+    //세션 생성 전략
+    //IF_REQUIRED 필요시생성(default)
+    //NEVER Security에선 세션을 생성하지 않지만, 세션이 존재하면 사용
+    //STATLESS 세션을 완전히 사용하지 않음 (JWT 인증이 사용되는 REST API 서비스에 사용)
+    //ALWAYS 항상 세션을 사용
+    .invalidSessionUrl("/")	// 유효하지 않은 세션인 경우 리다이렉트
+    .maximumSessions(1)  //최대 동시 로그인가능 세션 갯수
+      .maxSessionsPreventsLogin(false);  //최대 동시 로그인 세션 갯수 도달시 로그인 막을것이냐
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+[강사 및 강의내용 소개]
+
+문의 iyboklee@gmail.com
+
+강의자료
+https://iyboklee.notion.site/Spring-Boot-Spring-Security-Essentials-54d0e411d5d74f8b8caa53a20983842a
+
+
+챕터1 - 기본 원리편
+: 스프링 시큐리티 아키텍처, 내부 동작
+
+챕터2 - 응용 기술편
+: 스프링 시큐리티와 함께 사용할 수 있는 몇개의 응용 기술
+(스프링 세션, JWT, OAuth2)

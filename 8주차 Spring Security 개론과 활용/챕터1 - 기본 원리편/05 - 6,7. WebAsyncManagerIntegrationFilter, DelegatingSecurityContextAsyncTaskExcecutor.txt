@@ -1,0 +1,21 @@
+[05 Spring Security Internals Part. 3
+  - WebAsyncManagerIntegrationFilter]
+
+
+SpringWebMvcAsyncRequest
+- Spring MVC는 Thread per request 모델기반으로서, 사용자 요청을 하나의 thread가 끝까지 처리함, 하지만 이를 자식 스레드를 생성해 여러 스레드로 나눠서 처리할 수 있는 기능
+
+
+WebAsyncManagerIntegrationFilter
+- 위 작업을 처리함
+- Authentication을 담고있는 ThreadLocal은 원래 스레드 독립적으로가 한 스레드가 쭉 이용함(3-3참고), 이를 InheritanceThreadLocal을 이용함으로써 자식스레드가 부모스레드의 ThreadLocal을 참조가능하게 해줌
+
+
+
+[03 Spring Security Internals Part. 3
+  - DelegatingSecurityContextAsyncTaskExcecutor]
+
+DelegatingSecurityContextAsyncTaskExcecutor
+- 위 WebAsyncManagerIntegrationFilter 에서는 InheritableThreadLocal을 사용하는데, 이 방식은 사용가능환경이 제한적이고 버그 발생가능함(ThreadLocal의 clear가 제대로 안됨)
+- 그렇다면 InheritableThreadLocal 대신 어떤 방식으로 다른 스레드에 ThreadLocal을 공유해야할까? 몰라 나중에 찾아보기
+

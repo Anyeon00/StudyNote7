@@ -1,0 +1,31 @@
+[05 Spring Security Internals Part. 3
+  - BasicAuthenticationFilter]
+
+
+BasicAuthenticationFilter
+- 사용자 요청시 username과 password를 노출시키지 않기 위한 필터
+- HTTP Basic 인증 방법을 사용
+
+
+Basic 인증
+- HTTP 요청 헤더에 username과 password를 Base64 인코딩하여 포함
+1. "username:password"를 Base64인코딩
+2. 키: Authorization, Value: Authorization: Basic 인코딩된문자열
+형식으로 헤더에 담음
+
+- HTTPS 프로토콜에서만 제한적으로 사용 (사실 보통 안쓴다고함)
+
+
+Spring Security에서 활성화하기
+Security Configuration클래스의 configure(HttpSecurity http) 메서드에서
+http
+  .httpBasic();
+작성
+
+
+
+* postman에서 아이디비번 폼 데이터로(http body에 쿼리스트링으로) 안주고,
+위 처럼 Authorization키에 아래사이트에서 "아이디:비번" 인코딩해서 밸류로 전송하니 로그인됨ㄷㄷ
+https://www.base64decode.org/ko/
+
+

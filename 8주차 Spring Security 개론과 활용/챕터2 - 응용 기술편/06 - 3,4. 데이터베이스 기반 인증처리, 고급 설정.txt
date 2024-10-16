@@ -1,0 +1,28 @@
+[06 Spring Security with Database
+  - 데이터베이스 기반 인증처리]
+
+데이터베이스를 연동하여 로그인 처리하기
+
+* 스프링 시큐리티 인증처리 로직
+시작 : UsernamePasswordAuthenticationFilter(or RememberMe필터)
+- AuthenticationManager를 의존 (authenticate 메서드로 사용자인증 처리)
+- UserDetails를 loadByUsername()으로해와서 처리
+
+SecurityConfiguration클래스에서 UserDetailsService 구현체로 jdbcDaoImpl 등록
+* 원래는 inmemory가 사용됨 -> jdbc사용
+ex)
+@Bean UserDetailsService userDetailsService(Datasource dataSource){
+  JdbcDaoImpl jdbcDao = new JdbcDaoImpl();
+  jdbcDao.setDataSource(dataSource);
+  return jdbcDao;
+}
+
+
+[03 Spring Security with Database
+  - 데이터베이스 기반 인증 고급 설정]
+
+
+
+
+
+

@@ -1,0 +1,104 @@
+[09 Spring Security with JWT Part. 2
+  - JwtAuthenticationFilter 구현]
+
+JwtAuthenticationFilter 구현하기
+1. HTTP요청헤더에 JWT 토큰이 있는지 확인
+2. JWT 토큰이 있다면, 주어진 토큰을 디코딩
+3. username, roles 데이터를 추출하고, UsernamePasswordAuthenticationToken생성
+4. UsernamePasswordAuthenticationToken을 SecurityContext에 넣어줌
+
+ex)
+public class JwtAuthenticationFilter extends GenericFilterBean{
+  private final Logger log = LoggerFactory.getLogger(getClass());
+  private final String headerKey;
+  private final Jwt jwt;	
+  public JwtAuthenticationFilter(String headerKey, Jwt jwt){
+    this.headerKey = headerKey;
+    this.jwt = jwt;
+  }
+
+  @Override
+  public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+    throws IOException, ServletException{
+      HttpServletRequest request = (HttpServletRequest) req;
+      HttpServletResponse response = (HttpServletResponse) res;
+      //현재 Authentication이 null일 경우에만 수행
+      if(SecurityContextHolder.getContext().getAuthentication() == null){
+        String token = getToken(request);
+        if(token != null){
+          try{
+            Jwt.Claims claims = verify(token);
+            log.debug("Jwt parse result: {}, claims);
+            String username = claims.username;
+            List<GrantedAuthority> authorities = getAuthorities(claims);
+            if(isNotEmpty(username) && authorities.size() > 0){
+              UsernamePasswordAuthenticationToken authentication 
+                = new UsernamePasswordAuthenticationToken(username, null, authorities);
+              authentication
+                .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+              SecuirtyContextHolder.getContext().setAuthentication(authentication);
+            }
+          }catch (Exception e){
+            log.warn("Jwt processing failed: {}, e.getMessage());
+        }
+      }else{
+        log.debug("SecurityContextHolder not populated with security token, as it already contained: {}, SecurityContextHolder.getContext().getAuthentication());
+      }
+      
+      chain.doFilter(request, response);
+  }
+  //HTTP헤더에서 JWT토큰을 꺼내오는 메서드
+  private String getToken(HttpServletRequest req){
+    String token = request.getHeader(headerKey);
+    if(isNotEmpty(token){
+      log.debug("Jwt token detected : {}", token);
+      try{
+        return URLDecoder.decode(token, "UTF-8");
+      } catch (Exception e){
+        log.error(e.getMessage(), e);
+      }
+    }
+    return null;
+  }
+  private Jwt.Claims verify(String token){
+    return jwt.verify(token);
+  }
+  private List<GrantedAuthority> getAuthorities(Jwt.Claims claims){
+    String[] roles = claims.roles;
+    return roles == null || roles.length == 0
+      ? emptyList()
+      : Arrays.steram(roles)
+        .map(SimpleGrantedAuthority::new)
+        .collect(Collectors.toList());
+  }
+}
+
+
+JwtAuthenticationFilter 필터체인에 끼워넣기
+SecurityConfiguration클래스에서
+1. 필터 빈생성
+  public JwtAuthenticationFilter jwtAuthenticationFilter(){
+    Jwt jwt = getApplicationContext().getBean(Jwt.class);
+    return new JwtAuthenticationFilter(jwtConfigure.getHeader(), jwt);
+  }
+2. configure(HttpSecurity http) 메서드에 추가
+http
+  .and()
+  //SecurityContextPersistenceFilter 다음 위치에 삽입
+  .addFilterAfter(jwtAuthenticationFilter(), SecurityContextPersistenceFilter.class);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

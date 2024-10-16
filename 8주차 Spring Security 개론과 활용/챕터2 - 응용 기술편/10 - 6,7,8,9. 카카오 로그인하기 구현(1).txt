@@ -1,0 +1,17 @@
+[10 Spring Security OAuth2
+  - 카카오 로그인하기 구현(1)]
+
+Authorization Code Grant 방식으로 카카오 로그인하기 만들어보기
+
+2. 
+-1. 의존관계 추가: spring-boot-starter-oauth2-client
+-2. application.yml 설정
+-3. AuthenticationSuccessHandler 구현클래스 작성
+(카카오인증 완료 후, 후처리 _신규 사용자 가입, JWT토큰 생성 및 응답)
+-4. SpringSecurity Configuration클래스에서 빈 등록 및 configure(HttpSecurity http) 메서드 설정
+
+*구현 코드 참고(강의자료) 
+https://iyboklee.notion.site/10-Spring-Security-OAuth2-453bd8d87af64809be25b319d0c884da
+
+3. 추가적인 개선
+위 링크 참고

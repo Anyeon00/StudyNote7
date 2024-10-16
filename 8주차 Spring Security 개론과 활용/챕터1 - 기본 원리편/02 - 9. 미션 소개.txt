@@ -1,0 +1,6 @@
+[02 Spring Security Architecture 
+  - 미션 소개]
+
+1. AnonymousAuthenticationFilter, ExceptionTranslationFilter 에 대해 정리해보기
+2. 대칭 키 암호화, RSA 암호화에 대해 정리해보기
+3. SSL 인증서를 직접생성해보고, Spring Boot 프로젝트에 적용해보기

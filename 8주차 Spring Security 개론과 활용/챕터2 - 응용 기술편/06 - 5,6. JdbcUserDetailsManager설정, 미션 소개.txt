@@ -1,0 +1,19 @@
+[06 Spring Security with Database
+  - JdbcUserDetialsManager 설정]
+
+근데 이 06 장은 뭐 쓸데있는지잘모르겟다 뭔소린지도 모르겟다
+
+
+[03 Spring Security with Database
+  - 미션 소개]
+
+- 데이터베이스 기반 인증 고급 설정 부분(Group-based Access Control 적용)을 JPA로 구현해보기 (com.prgrms.devcourse.user 패키지 아래에 생성)
+    - 구현 클래스 목록
+        - Entity 클래스
+            - User 클래스 — users 테이블
+            - Group 클래스 — groups 테이블
+            - Permission 클래스 — permissions 테이블
+            - GroupPermission 클래스 — group_permission 테이블 (다대다 매핑을 위한 교차 테이블)
+        - JPA 기반 UserRepository
+        - UserService 클래스 — UserDetailsService 인터페이스 구현체 (JdbcDaoImpl를 대체해야함)
+    - 단, schema_new.sql, data_new.sql 쿼리 파일은 그대로 사용함

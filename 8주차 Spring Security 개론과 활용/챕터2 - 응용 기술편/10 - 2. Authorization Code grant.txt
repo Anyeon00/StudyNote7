@@ -1,0 +1,21 @@
+[10 Spring Security OAuth2
+  - Authorization Code Grant]
+Oauth2.0에서 Client가 Authorization Server에게 토큰 발생을 요청하는 4가지 방법
+중 1번 방법
+
+Authorization Code Grant
+- Oauth2.0에서 가장 중요하고, 널리 사용되는 인증 방법
+- 백엔드 서버가 필요, 민감정보가 서버 밖으로 노출되지 않음
+
+- 4가지 처리 단계
+1. Authorization Request : Client는 사용자를 Authorization Server로 리다이렉션
+(플랫폼 서버의 로그인 페이지로 이동시킴)
+2. Authorization Response : Authorization Server에서 인증 후, 사용자를 Client 서버로 리다이렉션
+(Authorization Server가 Access-Token 교환을 위한 1회성 승인 코드를 Client에게 발급)
+* Access-Token : 리소스 요청에 필요한 토큰
+3. Token Request : Client가 Resource Server에게 승인 코드로 Access-Token요청
+4. Token Response : Resource Server가 Client에게 Access-Token 발급
+
+* 왜 인증시 발급 승인 코드를 리턴해주고, 그 승인 코드로 다시 토큰을 요청하고 발급받나?
+그냥 인증하고 바로 토큰을 받으면 안되나?
+=> 인증시, 1회성 승인 코드는 (쿼리스트링으로)URL에 노출됨. Access-Token을 URL에 노출시킬 수 없으니까

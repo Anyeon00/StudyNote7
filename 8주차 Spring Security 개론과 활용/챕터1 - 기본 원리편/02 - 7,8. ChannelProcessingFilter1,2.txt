@@ -1,0 +1,32 @@
+[02 Spring Security Architecture 
+  - ChannelProcessingFilter1, ChannelProcessingFilter2]
+
+* 2-5 내용 중
+- ChannelProcessingFilter 
+웹 요청이 어떤 프로토콜로 (http 또는 https) 전달되어야 하는지 처리 
+
+* HTTP와 HTTPS
+HTTP : 클라이언트와 서버가 주고받는 데이터는 암호화되어 있지 않음
+HTTPS : 클라이언트와 서버가 주고받는 모든 데이터는 암호화되어 있음 (SSL을 사용)
+
+* SSL (=TLS)
+- 서버는 SSL인증서를 클라이언트에 전달함
+- 클라이언트는 서버가 전달한 SSL인증서를 검증하고, 신뢰할 수 있는 서버인지 확인
+- 신뢰가능한 서버라면, SSL인증서의 공개키를 이용해 실제 데이터 암호화에 사용될 암호화키를 암호화하여 서버에 전달
+
+* HTTPS 적용 방법
+1. SSL 인증서 생성 (실제로 사용시엔 검증된 SSL인증서 기관에 돈주고 받아서 사용해야함)
+- keytool 도구를 이용해 임의로 SSL 인증서를 생성 가능(cmd에서 keytool 명령어 사용)
+2. 생성된 keystore와 truststore를 프로젝트의 resource에 붙여넣기
+3. yml설정파일 설정 - 포트번호 443으로 변경(https의 default 포트), ssl관련설정
+(자세내용은 강의자료 참고)
+4. Spring Security Configuration 클래스의 configure(HttpSecurity http) 메서드에서 아래 코드 추가
+http
+  .requiresChannel()
+    .anyRequest().requiresSecure();
+// 모든 요청에 https보안을 적용하겠다는 뜻
+5. 브라우저로 https프로토콜로 접속(내가 직접 만든 이상한 인증서기 때문에, 인증서를 신뢰할건지 창이 뜸)
+
+
+ChannelProcessingFilter
+흠.. 그래서 이 필터에서 뭐 어떻게 한다는거겠지

@@ -1,0 +1,27 @@
+[03 Spring Security Internals Part. 1
+  - 인증 처리]
+
+인증 (Authentication)
+- 사용자가 주장하는 본인이 맞는지 확인하는 절차
+- 일반적으로 아이디/비밀번호, 아이디로 사용자를 확인하고 비밀번호로 검증
+
+
+(관련 필터들)
+* DefaultLoginPageGeneratingFilter
+- 로그인을 수행하는데 필요한 HTML을 생성함 
+- 커스텀 페이지 사용 가능 (커스텀시 이 필터는 비활성화)
+
+* UsernamePasswordAuthenticationFilter 
+- AbstractAuthenticationProcessingFilter를 상속
+- ID/비밀번호 기반 Form 인증 요청 URL(기본값: /login)을 감시하여 사용자를 인증함
+
+
+Spring Security에서의 인증절차 흐름
+1. 사용자 요청을 UsernamePasswordAuthenticationFilter에서 받아서, 미인증상태의 Authentication을 만듦(ID와 비밀번호를 담아서)
+2. 위 Authentication을 AuthenticationManager라는 것에다가 넘겨줌
+3. AuthenticationManager가 List로 들고있는 AuthenticationProvider 중 위 Authentication을 처리할 수 있는 Provider가 받아서 인증을 처리
+4. 이 후 인증이 처리된 Authentication을 다시 만들고, 이에 해당하는 권한을(principal에 따라) 매핑해줌
+* Authentication : 3-4참고
+* principal 예시 : 3-1참고
+5. 인증처리 완료
+

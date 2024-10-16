@@ -1,0 +1,30 @@
+[미션리뷰 - ExceptionTranslationFilter]
+
+미션 1. AnonymousAuthenticationFilter, ExceptionTranslationFilter 에 대해 정리해보기
+----------------------------------------
+* 2-5 내용 중
+- ExceptionTranslationFilter
+요청을 처리하는 도중 발생할 수 있는 예외에 대한 라우팅과 위임을 처리함
+
+* 2-6. RequestCacheAwareFilter 에서도 잠깐 언급 됨
+접근 거부 예외가 발생하면, 요청url을 캐시처리하고 로그인페이지로 이동시키고 처리후 다시 요청url로 리다이렉션시킨다는 내용	
+
+
+ExceptionTranslationFilter
+- FilterSecurityInterceptor 바로 뒤에 위치, FilterSecurityInterceptor 실행 중 발생 가능한 예외를 잡고 처리함
+* FilterSecurityInterceptor에서 발생시키는 예외
+1. AuthenticationException : 인증관련 예외, 사용자를 로그인 페이지로 보냄
+2. AccessDeniedException : 인가관련 예외, 사용자를 접근 거부 페이지 또는 로그인 페이지로 보냄
+
+- 커스텀필터 사용시, 커스텀필터에서 예외를 발생시키고 ExceptionTranslationFilter에서 catch해 예외를 처리함 (RequestCacheAwareFilter와 마찬가지로)
+- 따라서 커스텀필터를 ExceptionTranslationFilter보다 앞에 위치시켜야 함 
+
+
+
+
+
+
+
+
+
+

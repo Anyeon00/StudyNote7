@@ -1,0 +1,55 @@
+[05 Spring Security Internals Part. 3
+  - Spring Security 인증 이벤트]
+
+Spring Security 인증 이벤트
+인증 성공 또는 실패가 발생했을 때 관련 이벤트(ApplicationEvent)가 발생하고, 해당 이벤트에 기능을 추가하고 싶은 컴포넌트는 이벤트를 구독하고 처리할 로직을 구현만 하면 됨
+ex) 로그인 성공시 이메일 발송
+
+
+abstract AbstractAuthenticationEvent
+- ApplicationEvent 상속
+- Security의 최상위 이벤트 객체
+- 대표적 2가지 자식 객체
+1. AuthenticationSuccessEvent : 로그인 성공 관련
+2. AbstractAuthenticationFailureEvent : 로그인 실패 관련 *얘도 추상클래스
+2-1. AuthenticationFailureBadCredentialsEvent : 아이디/패스워드가 잘못 됐을때
+2-2. AuthenticationFailureExpiredEvent : 로그인 계정이 만료되었을 때
+2-3,4,5,... 있음
+
+
+단순구현 설명
+- AbstractAuthenticationProcessingFilter가 로그인을 처리하며, 위 Event를 발생시킴
+- 로그인 성공 시 호출되는 메서드 successfulAuthentication()이므로, 이를 Override하여 로그인성공시 수행할 로직을 추가 가능 (로그인 성공시 이메일 보내기 등)
+* 앞에 나온 UsernamePasswordAuthenticationFilter가 위 필터를 상속하고 있어, 이를 상속한 후 Override해도 됨
+- 추가 후, super.successfulAuthentication()을 호출하여 원래 기능 마저 이어 붙이기
+=> 하지만 기능 확장시 이 메서드를 다시 수정해야 함
+=> 높은 결합도로 인해 바람직하지 않음
+
+
+이벤트발생-구독 모델 적용
+- 리스너가 이벤트를 수신하면 로직 실행
+ex) CustomAuthenticationEventHandler 클래스 생성
+@Component
+CustomAuthenticationEventHandler{
+  //로그인 성공 이벤트 발생시 실행 메서드
+  @EventListener
+  public void handleAuthenticationSuccessEvent(AuthenticationSuccessEvent event){
+    Authentication authentication = event.getAuthentication();	//authentication가져오기
+    //~로직구현~//    
+  }
+  //로그인 실패 이벤트 발생시 실행 메서드
+  @EventListener
+  public void handleAuthenticationFialureEvent(AbstractAuthenticationFailureEvent event){
+    Exception e = event.getException();  //어떤 실패인지
+    Authentication authentication = event.getAuthentication();	//authentication가져오기, 실패이므로 없을 수도
+    //~로직구현~//
+  }
+}
+* 로그인 처리 중에 일어나는 메서드이므로 동기적임
+예를 들어, 이 로직에 thread.sleep(5초)가 들어가면 5초 후에 로그인이 처리됨
+-> @Async 어노테이션을 위 각 메서드단위에 달아주면 비동기로 처리
+
+
+
+
+

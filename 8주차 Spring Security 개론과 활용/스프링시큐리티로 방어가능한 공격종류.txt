@@ -1,0 +1,14 @@
+SessionManagementFilter *4-3
+- sesson-fixation attack 세션고정공격 방어
+
+HeadWriterFilter *5-3
+- 응답헤더에 보안관련 헤더 추가
+1. MIME sniffing공격방어
+2. XSS 필터 활성화
+3. 캐시를 사용하지 않도록 설정(민감정보 캐시 방지)
+4. clickjacking 공격 방어
+
+CsrfFilter *5-4
+- CSRF공격 방어
+-------------------------------------
+*ExceptionTranslationFilter 이해 못함

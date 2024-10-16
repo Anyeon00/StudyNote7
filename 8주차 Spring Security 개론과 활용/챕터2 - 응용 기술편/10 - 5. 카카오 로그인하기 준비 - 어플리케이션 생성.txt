@@ -1,0 +1,18 @@
+[10 Spring Security OAuth2
+  - 카카오 로그인하기 준비 - 어플리케이션 생성]
+
+Authorization Code Grant 방식으로 카카오 로그인하기 만들어보기
+
+1. 카카오 개발자 사이트에서, Application 생성
+https://developers.kakao.com/ 
+-> 내 어플리케이션 
+-> 애플리케이션 추가하기 
+-> 애플리케이션 선택 
+-> 카카오 로그인 
+-> 활성화 설정: 활성화 
+-> Redirect URL 등록: http://localhost:8080/login/oauth2/code/kakao 입력 
+-> 동의항목 
+-> 닉네임: 설정: 필수 동의, 동의목적: 사용자 정보 수집
+-> 프로필 사진: 위와 같음
+-> 보안 
+-> Client Secret: 코드 생성, 활성화 상태 - 설정: 사용함

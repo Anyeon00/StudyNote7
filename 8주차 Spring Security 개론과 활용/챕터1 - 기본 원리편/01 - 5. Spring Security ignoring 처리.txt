@@ -1,0 +1,33 @@
+[01 Spring Security Quickstart 
+  -5. Spring Security ignoring 처리]
+
+아래 주석의 WebSecurity 객체 설명 참고
+
+ex) Spring Security의 Configuration 클래스에서
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
+
+  @Override
+  public void configure(WebSecurity web) {
+    web.ignoring().antMatchers("/assets/**");
+  }
+//WebSecurity 객체 : 필터 체인 관련 전역 설정을 처리하는 API 제공
+// ignoring()
+//- Spring Security 필터 체인을 적용하고 싶지 않은 리소스에 대해 설정
+//- 일반적으로 정적 리소스(html, css, js 등)을 등록
+//- 불필요한 서버 자원 낭비 방지
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http
+      .authorizeRequests()
+        .antMatchers("/me").hasAnyRole("USER", "ADMIN")
+        .anyRequest().permitAll()
+        .and()
+      .formLogin()
+        .defaultSuccessUrl("/")
+        .permitAll()
+    ;
+  }
+}

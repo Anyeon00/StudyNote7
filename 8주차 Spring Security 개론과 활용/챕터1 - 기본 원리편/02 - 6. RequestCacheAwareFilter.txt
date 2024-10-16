@@ -1,0 +1,31 @@
+[02 Spring Security Architecture 
+  - RequestCacheAwareFilter]
+
+* 2-5 내용 중
+- RequestCacheAwareFilter
+로그인 성공 이후 인증 요청에 의해 가로채어진 사용자의 원래 요청으로 이동하기 위해 사용됨
+
+
+RequestCacheAwareFilter
+- 인증 요청에 의해 가로채어진 원래 요청으로 이동하기
+- 익명 사용자가 보호 받는 리소스 (예: /myPage)에 접근할 경우, 보호 받는 리소스로의 접근을 캐시처리하고, 로그인 페이지로 이동시킴. 로그인 후에 다시 캐시를 이용해 보호받는 리소스로 리다이렉션 시킴
+- 예를들면, 마이페이지를 요청했는데 인증요청에 의해 로그인 페이지로 이동하게 됨. 이 때 로그인 후, 원래 요청했던 마이페이지로 리다이렉션 시킴
+- 로직은 그냥, 요청페이지를 저장해놨다가 인증처리 후 보낼 때, 저장된 페이지가 있으면 글로 보내주는게 다임
+
+
+관련 필터
+FilterSecurityInterceptor 라는 필터에서 인가 거부
+ExceptionTranslationFilter 라는 필터에서 인가 거부로 인한 예외를 처리함
+(RequestCacheAwareFilter - FilterSecurityInterceptor - ExceptionTranslationFilter)
+
+* 2- 5 내용 중
+- FilterSecurityInterceptor
+접근 권한 확인을 위해 요청을 AccessDecisionManager로 위임 (인가에 해당하는 필터)
+- ExceptionTranslationFilter
+요청을 처리하는 도중 발생할 수 있는 예외에 대한 라우팅과 위임을 처리함
+
+* 3-2 ExceptionTranslationFilter 참고 (ExceptionTranslationFilter와 FilterSecurityInterceptor내용)
+
+------------------------------------------------------
+요약
+접근 거부 예외가 발생하면, 요청url을 캐시처리하고 로그인페이지로 이동시키고 처리후 다시 요청url로 리다이렉션시킨다

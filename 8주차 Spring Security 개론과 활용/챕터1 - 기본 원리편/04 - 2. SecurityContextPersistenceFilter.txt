@@ -1,0 +1,12 @@
+[04 Spring Security Internals Part. 2
+  - SecurityContextPersistenceFilter]
+
+SecurityContextPersistenceFilter
+- 인증관련 필터 중 가장 앞에 위치함
+- 기능 : 인증이 완료된 유저의 Authentication을 받아놓고 다음 필터체인을 작동시킴
+1. SecurityContext를 load함
+2. SecurityContext를 save함
+* SecurityContext가 Authentication을 가지고 있음 _3-4 참고
+
+
+

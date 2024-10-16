@@ -1,0 +1,24 @@
+[07 Spring Security, Spring Session
+  - Spring Session Jdbc]
+
+
+Spring Session Jdbc
+- 세션 클러스터를 쉽게 구현 가능한 api를 제공  *세션클러스터(7-2참고)
+- redis, jdbc, mongoDB, hazelcast ... 등등 지원(실무에선 redis or hazelcast같은 inmemory엔진을 사용)
+
+구현 방법 (jdbc 이용)
+1. 의존성 추가 : spring-session-data-jdbc
+* 다른 스토리지 사용 예 : spring-session-data-redis
+
+2. application.yml 파일 설정
+spring:
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: never
+
+3. WebMvcConfigure 클래스 설정 (클래스 단위에 @EnableJdbcHttpSession)
+
+
+
+

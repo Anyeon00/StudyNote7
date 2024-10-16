@@ -1,0 +1,7 @@
+[01 Spring Security Quickstart 
+  -6. Thymeleaf 확장]
+
+Thymeleaf 확장 모듈
+- Spring Security 기능을 Thymeleaf에서 사용할 수 있도록 제공
+- maven repository에서 thymeleaf-extras-springsecurity5 검색
+- name정보 등등을 꺼내서 사용가능

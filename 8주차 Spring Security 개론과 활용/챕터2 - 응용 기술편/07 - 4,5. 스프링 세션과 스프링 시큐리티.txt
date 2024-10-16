@@ -1,0 +1,30 @@
+[07 Spring Security, Spring Session
+  - Spring Session - SessionRepository]
+ 
+
+스프링 세션이 어떻게 동작하는지, 스프링 시큐리티가 어떻게 통합되는지 상세구현
+Spring Session의 핵심 : SessionRepository, SessionRepositoryFilter
+
+
+SessionRepository
+- 4개의 메서드 : Session 생성, 저장, 조회, 삭제
+- 2개의 구현체 : MapSessionRepository (key로 session관리), 또 뭐 잇음
+
+
+
+[07 Spring Security, Spring Session
+  - 스프링 세션과 스프링 시큐리티] 
+
+SessionRepositoryFilter
+- HttpServletRequest와 HttpServletResponse를 wrapper로 싸서 다음 필터로 넘김
+- 세션과 관련된 동작을 처리할 수 있게 해줌(세션 생성, 조회, 저장)
+
+SessionRepositoryRequestWrapper
+- HttpServletRequest를 wrapping함
+- HttpServletRequest의 세션 관련 메서드를 오버라이드하고 있음
+(getSession() - 현재 세션이 null이면 만들어서 리턴해주도록)
+
+
+
+
+=> 결론 : 스프링에서 세션은 Spring Security의 SessionRepositoryFilter가 생성,저장,조회,삭제 해줌

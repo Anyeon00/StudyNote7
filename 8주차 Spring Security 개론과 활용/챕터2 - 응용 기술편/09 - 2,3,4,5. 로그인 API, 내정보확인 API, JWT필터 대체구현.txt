@@ -1,0 +1,16 @@
+[09 Spring Security with JWT Part. 2
+  - 로그인 API 구현 (JwtAuthenticationToken, JwtAuthenticationProvider)]
+
+[09 Spring Security with JWT Part. 2
+  - 나의 정보 확인 API 구현 (AuthenticationPrincipal 어노테이션)]
+
+[09 Spring Security with JWT Part. 2
+  - SecurityContextRepository 인터페이스 커스텀 구현(JwtAuthenticationFIlter 대체 구현)]
+
+[09 Spring Security with JWT Part. 2
+  - JwtAuthenticationFIlter 구현 vs SecurityContextRepository 커스텀 구현]
+
+분량 너무 많음
+
+참고
+https://iyboklee.notion.site/09-Spring-Security-with-JWT-Part-2-4ff5d8fe48894c0f95cbe27c2ff04e7c

@@ -1,0 +1,15 @@
+[01 Spring Security Quickstart
+  - 4. 기본 로그인 계정 설정 추가]
+
+실행시키면 콘솔창에 password 알려주고 이걸로 기본제공 로그인 폼에서 로그인 가능했던거
+-> 라이브러리에 User를 생성해서, UUID로 패스워드 만들고, 콘솔에 찍어주는 코드가 있음
+-> appllication.yml파일에서
+spring:
+  security:
+    user:
+      name: user
+      password: user123
+      roles: USER
+이렇게 써주면, 이 정보대로 User를 생성해줌
+
+* 참고로 user 두명은 등록 안됨(오류), 왜냐면 그렇게 구현되어 있음

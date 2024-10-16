@@ -1,0 +1,22 @@
+[미션리뷰 - AnonymousAuthenticationFilter]
+
+미션 1. AnonymousAuthenticationFilter, ExceptionTranslationFilter 에 대해 정리해보기
+----------------------------------------
+
+* 2-5 내용 중
+- AnonymousAuthenticationFilter
+해당  인증 필터에 도달할때까지 사용자가 아직 인증되지 않았다면, 익명 사용자로 처리하도록 함
+
+
+AnonymouseAuthenticationFilter
+- 해당 필터에 요청이 도달할때까지 사용자가 인증되지 않았다면, 사용자를 null 대신 Anonymous 인증 타입으로 표현
+
+Security Configuration 클래스에서 관련 설정
+configure(HttpSecurity http) {
+  http 
+    .anonymous()  //AnoumymouseAuthenticationFilter 설정 (익명 사용자에 대한 설정)
+      .principal("thisIsAnonymousUser")  //사용자종류 - default값=anonymouseUser
+      .authorities("ROLE_ANONYMOUS", "ROLE_UNKNOWN");  //권한 부여
+}
+
+

@@ -1,0 +1,31 @@
+[06 Spring Security with Database
+  - H2 기본 설정]
+
+
+Spring Security 실습을 위한 H2 의존성 추가
+
+* application.yml에서 h2의 path: /h2-console 이면
+Security Configuration 클래스의 configure(WebSecurity web) 메서드에서
+web.ignoring().antMatchers("/h2-console/**"); 추가 필요함
+
+기타 추가 의존성
++ spring-boot-starter-jdbc
++ hikariCP
++ log4jdbc
+
+
+[03 Spring Security with Database
+  - log4jdbc 설정]
+
+jdbc로 실행된 쿼리와 resultset을 로그로 남기기
+
+- 의존성 추가 : log4jdbc-remix
+- resources/logback.xml 파일 설정
+
+BeanPostPrecessor 어쩌고 설정
+
+
+
+
+
+

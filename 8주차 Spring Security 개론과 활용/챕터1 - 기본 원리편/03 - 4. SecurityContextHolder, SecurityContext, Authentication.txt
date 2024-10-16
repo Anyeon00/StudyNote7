@@ -1,0 +1,66 @@
+[03 Spring Security Internals Part. 1
+  - SecurityContextHolder, SecurityContext, Authentication]
+
+
+SecurityContextHolder (인터페이스)
+- SecurityContext를 담는 그릇
+- getter, setter 기능
+
+- 구현체 3개 존재, default값은 ThreadLocalSecurityContextHolderStrategy
+* ThreadLocal 변수에 SecurityContext 저장 
+ex) ThreadLocal<SecurityContext> contextHolder
+- clear 기능 역시 존재  *3-3 ThreadLocal 참고
+
+
+
+SecurityContext (인터페이스)
+- Authentication을 담는 그릇
+- getter, setter 기능
+
+
+
+Authentication (인터페이스)
+- 사용자의 인증 정보를 표현하는 개체 타입
+- 변수 : isAuthenticated(인증여부), authorities(권한들), credentials(인증요청비밀번호) principal(사용자종류) 
+*principal 예시 : 3-1참고
+- 인증되기 전, 인증된 후 모두 표현함
+- 구현체 여러개 존재
+AnonymousAuthenticationToken : 인증되지 않은 사용자를 표현하는 토큰
+UsernamePasswordAuthenticationToken : 인증된 사용자를 표현하는 토큰
+RememberMeAuthenticationToken : 자동로그인 사용자를 표현하는 토큰
+
+- isAuthenticated() 기능
+- getAuthorities() 기능
+- getPrincipal() 기능 (인증여부에 따라 다른 value 리턴)
+
+
+
+Principal
+- UserDetails와 같다고 생각
+- 자동으로 Principal로 UserDetails가 설정됨
+- Authentication의 getPrincipal()가 UserDetails를 반환함
+* 인증 전: getPrincipal()은 사용자의 입력 정보(예: username 등)를 반환
+* 인증 후: getPrincipal()은 UserDetails 객체를 반환
+
+
+=> 이렇게 포함하고 있음
+SecurityContextHolder <- SecurityContext <- Authentication <- (Principal(UserDetails), Credentials, Authorities)(인증전:로그인아이디 or 인증후:user객체, 비밀번호, 권한목록)
+
+* 비밀번호는 Authentication의 Credentials에도 들어가고 Authentication의 Principal의 UserDetails에도 들어가나?
+- Credentials에는 인증요청시 입력한 비밀번호, UserDetails에는 실제 비밀번호가 들어감
+- 로그인 인증 요청 로직
+: UsernamePasswordAuthenticationFilter에서 사용자가 입력한 아이디 비번으로 Authentication을 만들고, Authentication의 아이디로 UserDetails서비스의 loadUserByUsername(String username)으로 UserDetails를 꺼내와서, UserDetails의 비번과 Authentication의 Credentials의 비번과 비교하여 검증
+
+
+이해안된부분 보충 설명
+* UsernamePasswordAuthenticationFilter가 인증후 Authentication을 만들어냄
+* (그 Authentication이 저장된) SecurityContextHolder는 SecurityContextPersistenceFilter가 가지고 있음
+* 사용자의 요청이 들어올때 마다 Authentication을 만들어내고, 세션이 유지될때동안 보관하고 사용됨
+
+
+
+
+
+
+
+

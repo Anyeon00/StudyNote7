@@ -1,0 +1,39 @@
+[05 Spring Security Internals Part. 3
+  - 커스텀 AccessDecisionVoter 구현(OddAdminVoter)]
+
+지난미션 *4-6
+
+"admin" URL 접근에 대한 접근 권한 검사를 SpEL 표현식 방식에서 voter 방식으로 변경해보기
+
+1. AccessDecisionVoter<FilterInvocation> 인터페이스를 구현하는 OddAdnimVoter 클래스 추가
+- Admin 사용자의 로그인 아이디 끝 숫자가 홀수 인 경우 접근 허용
+- URL이 "/admin"이 아닌 경우 접근을 승인함
+* AccessDicisionVoter 4-4 참고
+
+2. expressionHandler(expressionHandler()) 부분 삭제 - 기본 expressionHandler를 사용함
+3. 표현식에서 oddAdmin 부분 삭제
+* 삭제 후 표현식 : antMatchers("/admin").access("isFullyAuthenticated() and hasRole('ADMIN')")
+
+4. AccessDecisionManager 인터페이스 구현체 중 UnanimousBased를 사용하도록 설정하고, 아래 voter 추가
+- WebExpressionVoter, OddAminVoter
+--------------------------------------
+
+1. OddAdminVoter 클래스 생성
+- implements AccessDecisionVoter<FilterInvocation>
+- 3개의 메서드 구현
+1. supports(ConfigAttribute attribute){ return true; }
+2. supports(Class<?> clazz){ return FilterInvocation.class.isAssignableFrom(clazz); }
+3. vote()
+- authentication으로 getPrincipal() 하여 user 불러오기
+- 로직 구현 (로직에 따라 결과 리턴 _ACCESS_GRANTED, ACCESS_DENIED, ACCESS_ABSTAIN)
+
+2. Configuration 클래스에 Bean등록
+@Bean
+public AccessDecisionManager accessDecisionManager
+어쩌고 그냥 이런식으로 함
+
+3. Configuration 클래스의 configure(HttpSecurity http) 메서드에 설정
+
+
+
+

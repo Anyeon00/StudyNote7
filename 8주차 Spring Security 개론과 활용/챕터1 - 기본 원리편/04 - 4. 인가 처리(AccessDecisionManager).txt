@@ -1,0 +1,50 @@
+[04 Spring Security Internals Part. 2
+  - 인가 처리(AccessDecisionManager)]
+
+인가(Authorization)
+- 권한이 부여된 사용자들만 특정 기능 또는 데이터에 접근을 허용하는 기능
+- 인가를 위한 2단계
+1. 인증된 사용자의 권한을 매핑
+- Spring Security에서는 보통 역할(ROLE)이라고 함
+ex) ROLE_USER, ROLE_ADMIN, ROLE_ANONYMOUS
+2. 보호되는 리소스에 대한 사용자의 권한 확인 
+- 관리자 권한을 가진 사용자만 관리자 페이지에 접근 가능
+
+
+FilterSecurityInterceptor
+- 필터체인 가장 마지막에 위치 (이 필터 도달시, 사용자 인증처리가 완료되어 있음)
+- 인가 처리 필터
+- 리소스에 필요한 권한과 사용자의 권한을 비교하여, 승인할지 거절할지 처리
+- AccessDecisionManager가 최종적으로 결정함
+ex) accessDicisionManager.decide(authenticated, object, attributes);
+
+* AccessDicisionManager (인터페이스)
+- 구현체 : AffirmativeBased클래스, ...
+- AccessDecisionVoter 리스트를 가짐
+- AccessDecisionVoter들의 투표(vote)결과를 취합하고, 결과에 따라 처리(구현체별로 상이)
+- 상수
+int ACCESS_GRANTED = 1;
+int ACCESS_ABSTAIN = 0; (판단 보류)
+int ACCESS_DENIED = -1;
+* 구체적인 내용은 다음 장에 4-5
+
+
+Spring Security에서의 인증절차 흐름
+1. FilterSecurityInterceptor 필터
+2. SecurityContextHolder에서 현재 요청 사용자의 Authentication을 가져옴 *3-4 참고
+(익명사용자면 anonymous토큰일거고, 인증완료면 usernamepassword토큰, 또는 rememberMe토큰)
+3. SecurityMetadataSource를 통해 사용자가 접근하려는 리소스의 권한을 ConfigAttributes객체로 가져옴
+4. AccessDecisionManager를 호출해 인가를 결정
+
+
+
+
+
+
+
+
+
+
+
+
+
